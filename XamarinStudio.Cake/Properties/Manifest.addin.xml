@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ExtensionModel>
+	<Runtime>
+	</Runtime>
+	<Extension path="/MonoDevelop/Ide/Pads">
+		<SolutionPad
+			id="CakePad"
+			defaultLayout="*"
+			defaultPlacement="Left"
+			defaultStatus="AutoHide"
+			icon="md-console"
+			class="XamarinStudio.Cake.Core.CakeTreeViewPad"
+			_label="Cake" />
+	</Extension>
+</ExtensionModel>
