@@ -2,28 +2,48 @@
 using System.Linq;
 using MonoDevelop.Ide.Gui.Components;
 using MonoDevelop.Ide.Gui.Pads;
-using MonoDevelop.Projects;
+using System.IO;
+using XamarinStudio.Cake.Helper;
 
 namespace XamarinStudio.Cake.Core {
 	public class CakeTreeViewPad : TreeViewPad {
-		public CakeTreeViewPad() {
-		}
 
 		public override void Initialize(NodeBuilder[] builders, TreePadOption[] options, string menuPath) {
 			base.Initialize(builders, options, menuPath);
+			var solution = SolutionHelper.GetSolutionPath();
+			ReloadTasks(solution);
+			RegisterEvent(solution);
+		}
 
-			var range = Enumerable.Range(0, 10).ToList();
-			range.ForEach(x => {
-				var it = new TreeViewItem($"Hello {x + 1}", Gtk.Stock.New);
+		private void RegisterEvent(string solution) {
+			this.TreeView.SelectionChanged += (s, e) => {
+				var item = treeView.GetSelectedNode();
+				var label = item.NodeName;
+
+				if (label == "Initialize") {
+					CakeHelper.Init(solution);
+					ReloadTasks(solution);
+				} else {
+					CakeHelper.ExecuteCmd(label, solution);
+				}
+			};
+		}
+
+		private void ReloadTasks(string solution) {
+			treeView.Clear();
+
+			var init = new TreeViewItem("Initialize", Gtk.Stock.Add);
+			treeView.AddChild(init);
+
+			var cake = Path.Combine(solution, "build.cake");
+			if (!File.Exists(cake)) return;
+
+			var task = CakeParser.ParseFile(new FileInfo(cake)).ToList();
+			task.ForEach(x => {
+				var name = x.Name;
+				var it = new TreeViewItem($"{name}", Gtk.Stock.Execute);
 				treeView.AddChild(it);
 			});
-		}
-		protected virtual void OnOpenWorkspace(object sender, WorkspaceItemEventArgs e) {
-
-		}
-
-		protected virtual void OnCloseWorkspace(object sender, WorkspaceItemEventArgs e) {
-
 		}
 	}
 }
