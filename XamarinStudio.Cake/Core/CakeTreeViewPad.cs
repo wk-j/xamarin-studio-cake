@@ -4,15 +4,22 @@ using MonoDevelop.Ide.Gui.Components;
 using MonoDevelop.Ide.Gui.Pads;
 using System.IO;
 using XamarinStudio.Cake.Helper;
+using MonoDevelop.Ide;
 
 namespace XamarinStudio.Cake.Core {
 	public class CakeTreeViewPad : TreeViewPad {
 
 		public override void Initialize(NodeBuilder[] builders, TreePadOption[] options, string menuPath) {
 			base.Initialize(builders, options, menuPath);
-			var solution = SolutionHelper.GetSolutionPath();
-			ReloadTasks(solution);
-			RegisterEvent(solution);
+			InitializePad();
+		}
+
+		private void InitializePad() {
+			IdeApp.Workspace.SolutionLoaded += (sender, e) => {
+				var solution = e.Solution.BaseDirectory.FullPath;
+				ReloadTasks(solution);
+				RegisterEvent(solution);
+			};
 		}
 
 		private void RegisterEvent(string solution) {
@@ -22,7 +29,6 @@ namespace XamarinStudio.Cake.Core {
 
 				if (label == "Initialize") {
 					CakeHelper.Init(solution);
-					ReloadTasks(solution);
 				} else {
 					CakeHelper.ExecuteCmd(label, solution);
 				}

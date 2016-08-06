@@ -10,11 +10,14 @@ namespace XamarinStudio.Cake {
 
 		public static void ExecuteCmd(string task, string workingDir) {
 			var process = new Process();
-			process.StartInfo.UseShellExecute = true;
-			process.StartInfo.FileName = "/bin/bash";
-			process.StartInfo.Arguments = $"build.sh --target {task}";
+			//process.StartInfo.UseShellExecute = true;
+			var command = $"tell app \"Terminal\" to do script \"cd {workingDir};/bin/sh build.sh --target {task}\"";
+			process.StartInfo.FileName = "osascript";
+			process.StartInfo.Arguments = $"-e '{command}'";
 			process.StartInfo.WorkingDirectory = workingDir;
 			process.Start();
+
+			Console.WriteLine(process.StartInfo.Arguments);
 		}
 
 		public static void Init(string solutionPath) {

@@ -8,7 +8,7 @@ var testDll = "TrySelectMany.Tests/bin/Debug/TrySelectMany.Tests.dll";
 var user = EnvironmentVariable("ghu");
 var pass = EnvironmentVariable("ghp");
 
-Task("build")
+Task("build-debug")
     .Does(() => {
             DotNetBuild(solution);
     });
