@@ -1,5 +1,6 @@
 #tool "nuget:?package=Fixie"
 #addin "nuget:?package=Cake.Watch"
+#tool "nuget:?package=gitreleasemanager"
 
 var solution = "XamarinStudio.Cake.sln";
 var project = "XamarinStudio.Cake/XamarinStudio.Cake.csproj";
@@ -8,12 +9,12 @@ var testDll = "TrySelectMany.Tests/bin/Debug/TrySelectMany.Tests.dll";
 var user = EnvironmentVariable("ghu");
 var pass = EnvironmentVariable("ghp");
 
-Task("build-debug")
+Task("Build-Debug")
     .Does(() => {
             DotNetBuild(solution);
     });
 
-Task("create-mpack")
+Task("Create-Mpack")
     .Does(() => {
             DeleteFiles("XamarinStudio.Cake/bin/Debug/*.mpack");
             StartProcess("xbuild", new ProcessSettings {
@@ -21,8 +22,8 @@ Task("create-mpack")
             });
     });
 
-Task("create-github-release")
-    .IsDependentOn("create-mpack")
+Task("Create-Github-Release")
+    //.IsDependentOn("Create-Mpack")
     .Does(() => {
         var package = new System.IO.DirectoryInfo("XamarinStudio.Cake/bin/Debug").GetFiles("*.mpack").FirstOrDefault();
         var version = package.Name

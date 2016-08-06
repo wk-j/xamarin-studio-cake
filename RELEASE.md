@@ -1,5 +1,4 @@
-## XamarinStudio.Cake 0.1
+## XamarinStudio.Cake 0.2
 
-- Initialize cake scripts
-- Reload tasks
-- Execute tasks
+- List cake tasks.
+- Execute task in new terminal window.
