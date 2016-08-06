@@ -1,3 +1,7 @@
+## XamarinStudio.Cake 0.3
+
+- Fixed first task not show.
+
 ## XamarinStudio.Cake 0.2
 
 - List cake tasks.
