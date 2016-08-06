@@ -9,6 +9,8 @@ using MonoDevelop.Ide;
 namespace XamarinStudio.Cake.Core {
 	public class CakeTreeViewPad : TreeViewPad {
 
+		static bool firstTime = true;
+
 		public override void Initialize(NodeBuilder[] builders, TreePadOption[] options, string menuPath) {
 			base.Initialize(builders, options, menuPath);
 			InitializePad();
@@ -20,6 +22,12 @@ namespace XamarinStudio.Cake.Core {
 				ReloadTasks(solution);
 				RegisterEvent(solution);
 			};
+
+			if (IdeApp.Workspace.GetAllSolutions().Count() > 0) {
+				var solution = SolutionHelper.GetSolutionPath();
+				ReloadTasks(solution);
+				RegisterEvent(solution);
+			}
 		}
 
 		private void RegisterEvent(string solution) {
@@ -38,17 +46,20 @@ namespace XamarinStudio.Cake.Core {
 		private void ReloadTasks(string solution) {
 			treeView.Clear();
 
-			var init = new TreeViewItem("Initialize", Gtk.Stock.Add);
-			treeView.AddChild(init);
+			//var init = new TreeViewItem("Initialize", Gtk.Stock.Add);
+			//treeView.AddChild(init);
 
 			var cake = Path.Combine(solution, "build.cake");
 			if (!File.Exists(cake)) return;
 
 			var task = CakeParser.ParseFile(new FileInfo(cake)).ToList();
 			task.ForEach(x => {
-				var name = x.Name;
-				var it = new TreeViewItem($"{name}", Gtk.Stock.Execute);
-				treeView.AddChild(it);
+				if (!firstTime) {
+					var name = x.Name;
+					var it = new TreeViewItem($"{name}", Gtk.Stock.Execute);
+					treeView.AddChild(it);
+				}
+				firstTime = false;
 			});
 		}
 	}
