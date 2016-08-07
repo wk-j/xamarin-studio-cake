@@ -1,3 +1,7 @@
+## XamarinStudio.Cake 0.5
+
+- Detect change when update .cake file.
+
 ## XamarinStudio.Cake 0.4
 
 - Add syntax highlight for .cake file.
