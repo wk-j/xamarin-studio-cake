@@ -12,4 +12,10 @@
 			class="XamarinStudio.Cake.Core.CakeTreeViewPad"
 			_label="Cake" />
 	</Extension>
+
+    <Extension path = "/MonoDevelop/Core/MimeTypes">  
+      <MimeType id="text/x-csharp" _description="C#" isText="true"> 
+        <File pattern="*.cake" />  
+      </MimeType>  
+    </Extension>  
 </ExtensionModel>
