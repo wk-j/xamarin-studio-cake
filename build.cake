@@ -23,7 +23,6 @@ Task("Create-Mpack")
     });
 
 Task("Create-Github-Release")
-    //.IsDependentOn("Create-Mpack")
     .Does(() => {
         var package = new System.IO.DirectoryInfo("XamarinStudio.Cake/bin/Debug").GetFiles("*.mpack").FirstOrDefault();
         var version = package.Name
