@@ -6,6 +6,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EFD1454B-C88F-4B77-A3EC-663437825FEF}"
 	ProjectSection(SolutionItems) = preProject
 		build.cake = build.cake
+		RELEASE.md = RELEASE.md
 	EndProjectSection
 EndProject
 Global

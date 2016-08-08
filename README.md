@@ -6,7 +6,7 @@ Cake launcher for Xamarin Studio.
 
 ## Features
 
-- Syntax highlight for .cake.
-- Detact change when edit .cake.
+- Syntax highlight for cake file.
+- Detect change when edit cake file.
 - Execute task in new Terminal window.
 

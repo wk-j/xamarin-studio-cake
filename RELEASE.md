@@ -1,3 +1,7 @@
+## XamarinStuiod.Cake 0.6
+
+- Fixed gui thread #1.
+
 ## XamarinStudio.Cake 0.5
 
 - Detect change when update .cake file.
