@@ -5,6 +5,7 @@ using MonoDevelop.Ide.Gui.Pads;
 using System.IO;
 using XamarinStudio.Cake.Helper;
 using MonoDevelop.Ide;
+using MonoDevelop.Core;
 
 namespace XamarinStudio.Cake.Core {
 	public class CakeTreeViewPad : TreeViewPad {
@@ -34,34 +35,34 @@ namespace XamarinStudio.Cake.Core {
 		}
 
 		private void DetectChange(string solution) {
+
 			_watcher.Path = solution;
 			_watcher.NotifyFilter = NotifyFilters.Size;  // | System.IO.NotifyFilters.LastAccess | System.IO.NotifyFilters.LastWrite;
 			_watcher.Filter = "*.cake";
 			_watcher.EnableRaisingEvents = true;
 			_watcher.IncludeSubdirectories = false;
 
-			var lastWatch = DateTime.MinValue;
+			var lastWatch = DateTime.Now;
+			var locker = new object();
 
 			Action<FileSystemEventArgs> doWatch = (e) => {
-				var fullPath = e.FullPath;
-				var lastWriteTime = File.GetLastWriteTime(fullPath);
-				if (lastWriteTime.Ticks != lastWatch.Ticks) {
-					ReloadTasks(solution);
-					_firstTime = true;
+				lock(locker) {
+					if((DateTime.Now - lastWatch).TotalMilliseconds > 1000) {
+						lastWatch = DateTime.Now;
+						Gtk.Application.Invoke((sender, ev) => {
+							ReloadTasks(solution);
+							_firstTime = true;
+						});
+					}
 				}
-				lastWatch = lastWriteTime;
 			};
 
-			var locker = new Object();
-
 			_watcher.Changed += (s, e) => {
-				lock (locker)
-					doWatch(e);
+				doWatch(e);
 			};
 
 			_watcher.Created += (s, e) => {
-				lock (locker)
-					doWatch(e);
+				doWatch(e);
 			};
 		}
 
