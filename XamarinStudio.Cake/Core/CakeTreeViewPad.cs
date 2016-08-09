@@ -10,8 +10,9 @@ using MonoDevelop.Core;
 namespace XamarinStudio.Cake.Core {
 	public class CakeTreeViewPad : TreeViewPad {
 
-		static bool _firstTime = true;
 		static FileSystemWatcher _watcher = new FileSystemWatcher();
+		static string _solution = string.Empty;
+		static bool _reset = true;
 
 		public override void Initialize(NodeBuilder[] builders, TreePadOption[] options, string menuPath) {
 			base.Initialize(builders, options, menuPath);
@@ -20,21 +21,26 @@ namespace XamarinStudio.Cake.Core {
 
 		private void InitializePad() {
 			IdeApp.Workspace.SolutionLoaded += (sender, e) => {
+				_reset = true;
 				var solution = e.Solution.BaseDirectory.FullPath;
 				ReloadTasks(solution);
-				RegisterEvent(solution);
 				DetectChange(solution);
+				_solution = solution;
 			};
 
 			if (IdeApp.Workspace.GetAllSolutions().Count() > 0) {
 				var solution = SolutionHelper.GetSolutionPath();
 				ReloadTasks(solution);
-				RegisterEvent(solution);
 				DetectChange(solution);
+				_solution = solution;
 			}
+
+			RegisterEvent();
 		}
 
 		private void DetectChange(string solution) {
+			// disable first
+			_watcher.EnableRaisingEvents = false;
 
 			_watcher.Path = solution;
 			_watcher.NotifyFilter = NotifyFilters.Size;  // | System.IO.NotifyFilters.LastAccess | System.IO.NotifyFilters.LastWrite;
@@ -51,7 +57,6 @@ namespace XamarinStudio.Cake.Core {
 						lastWatch = DateTime.Now;
 						Gtk.Application.Invoke((sender, ev) => {
 							ReloadTasks(solution);
-							_firstTime = true;
 						});
 					}
 				}
@@ -66,23 +71,23 @@ namespace XamarinStudio.Cake.Core {
 			};
 		}
 
-		private void RegisterEvent(string solution) {
+		private void RegisterEvent() {
 			this.TreeView.SelectionChanged += (s, e) => {
 				var item = treeView.GetSelectedNode();
 				var label = item.NodeName;
 
-				if (label == "Initialize") {
-					CakeHelper.Init(solution);
-				} else {
-					if (!_firstTime) {
-						CakeHelper.ExecuteCmd(label, solution);
+				System.Threading.Tasks.Task.Delay(200).ContinueWith((arg) => { 
+					if (!_reset) {
+						CakeHelper.ExecuteCmd(label, _solution);
 					}
-					_firstTime = false;
-				}
+					_reset = false;
+				});
+
 			};
 		}
 
 		private void ReloadTasks(string solution) {
+			_reset = true;
 			treeView.Clear();
 
 			var cake = Path.Combine(solution, "build.cake");

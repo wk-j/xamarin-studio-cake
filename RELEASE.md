@@ -1,4 +1,8 @@
-## XamarinStuiod.Cake 0.6
+## XamarinStudio.Cake 0.7
+
+- Fixed double execution when open new solution.
+
+## XamarinStudio.Cake 0.6
 
 - Fixed gui thread #1.
 

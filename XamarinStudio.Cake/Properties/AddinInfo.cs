@@ -5,7 +5,7 @@ using Mono.Addins.Description;
 [assembly: Addin(
 	"XamarinStudio.Cake",
 	Namespace = "XamarinStudio.Cake",
-	Version = "0.6"
+	Version = "0.7"
 )]
 
 [assembly: AddinName("XamarinStudio.Cake")]
