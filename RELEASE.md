@@ -1,24 +1,28 @@
-## XamarinStudio.Cake 0.7
+## v0.8
+
+- Remove plugin namespace.
+
+## v0.7
 
 - Fixed double execution when open new solution.
 
-## XamarinStudio.Cake 0.6
+## v0.6
 
 - Fixed gui thread #1.
 
-## XamarinStudio.Cake 0.5
+## v0.5
 
 - Detect change when update .cake file.
 
-## XamarinStudio.Cake 0.4
+## v0.4
 
 - Add syntax highlight for .cake file.
 
-## XamarinStudio.Cake 0.3
+## v0.3
 
 - Fixed first task not show.
 
-## XamarinStudio.Cake 0.2
+## v0.2
 
 - List cake tasks.
 - Execute task in new terminal window.
