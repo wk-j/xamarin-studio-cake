@@ -1,6 +1,6 @@
 <AddinProject appVersion="6.0">
   <Project platforms="Mac">
-    <AddinFile>XamarinStudio.Cake/bin/Debug/XamainStudio.Cake.dll</AddinFile>
+    <AddinFile>XamarinStudio.Cake/bin/Debug/XamarinStudio.Cake.dll</AddinFile>
     <BuildFile>XamarinStudio.Cake.sln</BuildFile>
     <BuildConfiguration>Debug</BuildConfiguration>
   </Project>
