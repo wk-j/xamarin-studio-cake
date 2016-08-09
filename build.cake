@@ -26,7 +26,7 @@ Task("Create-Github-Release")
     .Does(() => {
         var package = new System.IO.DirectoryInfo("XamarinStudio.Cake/bin/Debug").GetFiles("*.mpack").FirstOrDefault();
         var version = package.Name
-            .Replace("XamarinStudio.Cake.XamarinStudio.Cake_", String.Empty)
+            .Replace("XamarinStudio.Cake_", String.Empty)
             .Replace(".mpack", String.Empty);
 
         var tag = string.Format("v{0}", version);
