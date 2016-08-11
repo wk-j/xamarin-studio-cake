@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace XamarinStudio.Cake {
 	public class CakeHelper {
@@ -10,14 +11,20 @@ namespace XamarinStudio.Cake {
 
 		public static void ExecuteCmd(string task, string workingDir) {
 			var process = new Process();
-			//process.StartInfo.UseShellExecute = true;
 			var command = $"tell app \"Terminal\" to do script \"cd {workingDir};/bin/sh build.sh --target {task}\"";
 			process.StartInfo.FileName = "osascript";
 			process.StartInfo.Arguments = $"-e '{command}'";
 			process.StartInfo.WorkingDirectory = workingDir;
 			process.Start();
-
 			Console.WriteLine(process.StartInfo.Arguments);
+		}
+
+		public static void ActivateCmd() {
+			var process = new Process();
+			var command = $"tell app \"Terminal\" to activate";
+			process.StartInfo.FileName = "osascript";
+			process.StartInfo.Arguments = $"-e '{command}'";
+			process.Start();
 		}
 
 		public static void Init(string solutionPath) {

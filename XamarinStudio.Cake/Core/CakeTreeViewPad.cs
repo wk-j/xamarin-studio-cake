@@ -79,6 +79,9 @@ namespace XamarinStudio.Cake.Core {
 				System.Threading.Tasks.Task.Delay(200).ContinueWith((arg) => { 
 					if (!_reset) {
 						CakeHelper.ExecuteCmd(label, _solution);
+						System.Threading.Tasks.Task.Delay(20).ContinueWith((_) => {
+							CakeHelper.ActivateCmd();
+						});
 					}
 					_reset = false;
 				});

@@ -1,28 +1,34 @@
-## v0.8
+## Release Notes
+
+### v0.9
+
+- Activate Terminal to top most of the screen.
+
+### v0.8
 
 - Remove plugin namespace.
 
-## v0.7
+### v0.7
 
 - Fixed double execution when open new solution.
 
-## v0.6
+### v0.6
 
 - Fixed gui thread #1.
 
-## v0.5
+### v0.5
 
 - Detect change when update .cake file.
 
-## v0.4
+### v0.4
 
 - Add syntax highlight for .cake file.
 
-## v0.3
+### v0.3
 
 - Fixed first task not show.
 
-## v0.2
+### v0.2
 
 - List cake tasks.
 - Execute task in new terminal window.
